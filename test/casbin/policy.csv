@@ -1,0 +1,18 @@
+
+p, uptape, role::sales, user.attributes.accessTags, oneInEachAccessTag, uptape.attributes.accessTags
+p, uptape, role::manager, user.attributes.accessTags, oneInEachAccessTag, uptape.attributes.accessTags
+p, uptape, role::admin, user.attributes.accessTags, oneInEachAccessTag, uptape.attributes.accessTags
+
+p, contact, role::sales, user.id, =, contact.attributes.assignedTo
+p, contact, role::manager, user, hasSameLocationAs, assignedUser,
+p, contact, role::admin, user, hasSameLocationAs, assignedUser,
+
+p, /sales/*, role::sales, type::route
+p, /sales/*, role::manager, type::route
+p, /sales/contact/*/backoffice, role::sales, type::route, _, _, _, deny
+p, /reports/*, role::manager, type::route
+
+g, tom, role::admin
+g, kevin, role::manager
+g, landre, role::sales
+g, kandice, role::input
