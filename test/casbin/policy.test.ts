@@ -226,26 +226,26 @@ suite('Route Policy Enforcement,', () => {
     });
 });
 
-//
-// suite('Add Policies,', () => {
-//     test('should allow when user is assigned to contact', async () => {
-//         const enforcer = await getTestEnforcer("test/casbin/model.conf", "test/casbin/policy.csv");
-//
-//         const adapter = await MongooseAdapter.newSyncedAdapter('mongodb://localhost:27017/casbin', {useNewUrlParser: true, useUnifiedTopology: true});
-//         await sleep(1000);
-//         const e2 = await getTestEnforcer("test/casbin/model.conf", adapter);
-//         const p = await enforcer.getPolicy();
-//         console.log('all policies', p);
-//         await enforcer.addPolicy('/marketing', 'user', 'managerHasSameLocationAs', 'assignedUser')
-//         const p2 = await e2.getPolicy();
-//         console.log('all policies2', p2);
-//         await e2.addPolicies(p);
-//         await e2.addGroupingPolicy('billy', 'role::sales');
-//         const p3 = await e2.getPolicy();
-//         // const saved = await enforcer.savePolicy();
-//         console.log('was saved', p3);
-//     });
-// });
+
+suite('Add Policies,', () => {
+    test('should allow when user is assigned to contact', async () => {
+        const enforcer = await getTestEnforcer("test/casbin/model.conf", "test/casbin/policy.csv");
+
+        const adapter = await MongooseAdapter.newSyncedAdapter('mongodb://localhost:27017/casbin', {useNewUrlParser: true, useUnifiedTopology: true});
+        await sleep(1000);
+        const e2 = await getTestEnforcer("test/casbin/model.conf", adapter);
+        const p = await enforcer.getPolicy();
+        console.log('all policies', p);
+        await enforcer.addPolicy('/marketing', 'user', 'managerHasSameLocationAs', 'assignedUser', '_', '_', 'deny')
+        const p2 = await e2.getPolicy();
+        console.log('all policies2', p2);
+        await e2.addPolicies(p);
+        await e2.addGroupingPolicy('billy', 'role::sales');
+        const p3 = await e2.getPolicy();
+        // const saved = await enforcer.savePolicy();
+        console.log('was saved', p3);
+    });
+});
 
 async function testEnforce(e: Enforcer, params: { input: any; sub: any; obj: any;}, res: boolean) {
     expect(await e.enforce(params.input, params.sub, params.obj)).to.be.a.boolean().and
